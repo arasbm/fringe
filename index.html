@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="Fringe is an interaction concept that uses every edge of a UI element as a drawer">
+<meta name="author" content="Aras Balali Moghaddam">
+<!-- 
+
+Fringe - get more from every edge
+Copyright (C) 2013 Aras Balali Moghaddam
+http://www.arasbm.com
+
+-->
+<title>Fringe -- get more from every edge!</title>
+<style>
+
+* {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -ms-user-select: none;
+}
+
+body {
+  overflow: hidden;
+  background-color: #E6E6E6;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+div.panel {
+  position: absolute;
+  width: 24em;
+  height: 24em;
+  top: 50%;
+  left: 50%;
+  margin-left: -12em;
+  margin-top: -12em;
+  background: blue;
+  border-width: 3px;
+  border-style: double;
+  border-radius: 5px;
+  -moz-transition: width 0.4s;
+  -moz-transition:left 0.4s;
+  -moz-transition: top 0.4s;
+  -moz-transition: margin 0.4s;
+  transition: width 0.4s;
+  transition: left 0.4s;
+  transition: top 0.4s;
+  transition: margin: 0.4s;
+  -webkit-transition: width 0.4s;
+  -webkit-transition: left 0.4s;
+  -webkit-transition: top 0.4s;
+  -webkit-transition: margin 0.4s;
+}
+
+div.panel.top {
+  background: #666666;
+  background-image: url('actions_example_384.jpg');
+  background-repeat: no-repeat;
+  background-position: top;
+  -moz-transition: margin 0.4s;
+  -webkit-transition: margin 0.4s;
+  transition: margin 0.4s;
+  margin-top: -12.5em;
+  color: none;
+}
+
+div.panel.top:hover {
+  color: black;
+}
+
+div.panel.right {
+  background: #666666;
+  background-image: url('firefox_bg_384.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  -moz-transition: margin 0.4s;
+  -webkit-transition: margin 0.4s;
+  transition: margin 0.4s;
+  margin-left: -11.5em;
+  color: white;
+}
+
+div.panel.bottom {
+  background: #666666;
+  -moz-transition: margin 0.4s;
+  -webkit-transition: margin 0.4s;
+  transition: margin 0.4s;
+  margin-top: -11.5em;
+}
+
+div.panel.left {
+  background: #666666;
+  -moz-transition: margin 0.4s;
+  -webkit-transition: margin 0.4s;
+  transition: margin 0.4s;
+  margin-left: -12.5em;
+}
+
+div.panel.top.open {
+  margin-top: -20em;
+  top: 50%;
+}
+
+div.panel.right.open {
+  margin-left: 11em;
+  left: 50%;
+}
+
+div.panel.bottom.open {
+  margin-top: 11em;
+  top: 50%;
+}
+
+div.panel.left.open {
+  margin-left: -35em;
+  left: 50%;
+}
+
+div.element {
+  background-color: black;
+  background-image: url('shasta_384.jpeg');
+  background-repeat: no-repeat;
+  background-position: center;
+  text-align: center;
+  z-index: 100;
+  border-width: 3px;
+  border-style: solid;
+}
+
+div#error {
+  z-index: 1000;
+  display: none;
+  position: fixed;
+  width: 28em;
+  height: 12em;
+  top: 50%;
+  left: 50%;
+  margin-left: -16em;
+  margin-top: -8em;
+  text-align: center;
+  border: 2px;
+  border-color: red;
+  border-radius: 1em;
+  background-color: rgba(240,190,50,0.9);
+  padding: 2em;
+}
+
+div#help {
+  padding: 1em 1em 2em 1em;
+  left: 1em;
+  top: 1em;
+  width: 14em;
+  border-radius: 0.5em;
+  background-color: rgba(100,100,100,0.9);
+}
+div.blurb-text {
+  padding-left: 2em;
+  margin: 0 1em 1em 1em;
+}
+div.top-blurb {
+  margin: 7em 1em 1em 1em;
+  color: white;
+  font-size: 12px;
+}
+</style>
+
+</head>
+<body>
+<div id="help">
+  <h1>Fringe</h1>
+  Have you ever wanted every edge of every UI element to have a drawer that you could pull out? Yes? No!? Well, ok. 
+<br />
+<br />
+Anyway, this is a pretty cool way of allowing users to dig deeper into elements and extract more details or provide more actions -- while keeping your UI tidy and organized.
+  <br>
+  <br>
+  <b>Try pulling out drawers from each edge of the image</b> to get more detailed information or to perform actions such as sharing.
+<br />
+<h3>Multitouch</h3>
+Note that this is a multitouch example. Try pulling out the left and right panel at the same time. How does it feel?
+<br />
+<br />
+<h3>Questions or comments?</h3> Get in touch with me over at <a href="arasbm.com">my blog</a> or @arasbm on twitter and everywhere else :)
+</div>
+<div id="element" class="panel element"></div>
+
+<div id="top-drawer" class="panel top">
+  
+  <div class="top-blurb">This smaller panel is probably a good place to put in actions such as share, like, love, etc.</div>
+</div>
+<div id="right-drawer" class="panel right">
+  <div class="blurb-text">
+    Here is another panel than can be full of information or just a pretty picture. Whatever your imagination desire :)
+  </div>
+</div>
+<div id="bottom-drawer" class="panel bottom"></div>
+<div id="left-drawer" class="panel left">
+<table style="text-align: left; width: 350px; font-size: 100%" class="infobox biota">
+<tbody><tr>
+<th style="text-align: center; background-color: rgb(211,211,164)" colspan="2">Domestic cat<sup><a href="#"><span>[</span>1<span>]</span></a></sup></th>
+</tr>
+<tr>
+<tr style="text-align: center; background-color: rgb(211,211,164)">
+<th colspan="2"><a title="Conservation status" href="#">Conservation status</a></th>
+</tr>
+<tr>
+<td colspan="2">
+<div style="text-align: center">Domesticated</div>
+</td>
+</tr>
+<tr>
+<th style="text-align: center; background-color: rgb(211,211,164)" colspan="2"><a title="Biological classification" href="#">Scientific classification</a></th>
+</tr>
+<tr>
+<td>Kingdom:</td>
+<td><span style="white-space:nowrap;" class="kingdom"><a title="Animal" href="#">Animalia</a></span></td>
+</tr>
+<tr>
+<td>Phylum:</td>
+<td><span style="white-space:nowrap;" class="phylum"><a title="Chordate" href="#">Chordata</a></span></td>
+</tr>
+<tr>
+<td>Class:</td>
+<td><span style="white-space:nowrap;" class="class"><a title="Mammal" href="#">Mammalia</a></span></td>
+</tr>
+<tr>
+<td>Order:</td>
+<td><span style="white-space:nowrap;" class="order"><a title="Carnivora" href="#">Carnivora</a></span></td>
+</tr>
+<tr>
+<td>Family:</td>
+<td><span style="white-space:nowrap;" class="family"><a title="Felidae" href="#">Felidae</a></span></td>
+</tr>
+<tr>
+<td>Genus:</td>
+<td><span style="white-space:nowrap;" class="genus"><i><a title="Felis" href="#">Felis</a></i></span></td>
+</tr>
+<tr>
+<td>Species:</td>
+<td><span style="white-space:nowrap;" class="species"><i><b>F. catus</b></i></span></td>
+</tr>
+<tr><td>
+<br />This example of detail information is taken from wikipedia from http://en.wikipedia.org/wiki/Cat
+</td></tr>
+</tbody></table>
+</div>
+
+<div id="error">This is a multitouch demo and it apears that your device does not support multitouch. You need to use a multitouch simulator to interact with this demo.
+<br />
+<br />
+Click to dismiss
+</div>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript">
+var isTouchDevice = 'ontouchstart' in document.documentElement;
+
+// panels can be closed opening or open
+var topD = {state: 'closed'},
+      rightD = {state: 'closed'},
+      bottomD = {state: 'closed'},
+      leftD = {state: 'closed'},
+      elementSelected = false,
+      topEl,
+      bottomEl,
+      leftEl,
+      rightEl,
+      winWidthHalf,
+      //threshold for how close to an edge swipe action needs to be to get registered
+      threshold = 100;
+
+$('#error').click(
+  function(){
+    $('#error').hide();
+  }
+);
+
+$(document).ready(function(){
+  init();
+  if (!isTouchDevice) {
+    $('#error').show();
+  }
+});
+
+function init() {
+  winWidth = window.innerWidth;
+  winHeight = window.innerHeight;
+  winWidthHalf = Math.ceil(winWidth/2);
+  winHeightHalf = Math.ceil(winHeight/2);
+
+  //Drawer element selectors
+  topEl = $('#top-drawer');
+  rightEl = $('#right-drawer');
+  bottomEl = $('#bottom-drawer');
+  leftEl = $('#left-drawer');
+
+  //document.addEventListener('touchmove', function(e){ e.preventDefault(); });
+  //document.addEventListener('touchstart', function(e){ e.preventDefault(); });
+  //document.addEventListener('click', function(e){ e.preventDefault(); });
+
+  document.addEventListener('touchstart', touchDown, false);
+  document.addEventListener('touchend', touchUp, false);
+  document.addEventListener('touchleave', touchLeave, false);
+  document.addEventListener('touchcancel', touchCancel, false);
+  document.addEventListener('touchmove', touchMove, false);
+}
+
+// 0=all 1=top 2=right 3=bottom 4=left
+function open(d) {
+  switch(d) {
+    case 0:
+      leftEl.addClass("open");
+      leftD.state = 'open';
+      bottomEl.addClass("open");
+      bottomD.state = 'open';
+      rightEl.addClass("open");
+      rightD.state = 'open';
+      topEl.addClass("open");
+      topD.state = 'open';
+      break;
+    case 1:
+      topEl.addClass("open");
+      topD.state = 'open';
+      break;
+    case 2:
+      rightEl.addClass("open");
+      rightD.state = 'open';
+      break;
+    case 3:
+      bottomEl.addClass("open");
+      bottomD.state = 'open';
+      break;
+    case 4:
+      leftEl.addClass("open");
+      leftD.state = 'open';
+      break;
+  }
+}
+
+// 0=all 1=top 2=right 3=bottom 4=left
+function close(d) {
+  switch(d) {
+    case 0:
+      leftEl.removeClass("open");
+      leftD.state = 'closed';
+      bottomEl.removeClass("open");
+      bottomD.state = 'closed';
+      rightEl.removeClass("open");
+      rightD.state = 'closed';
+      topEl.removeClass("open");
+      topD.state = 'closed';
+      break;
+    case 1:
+      topEl.removeClass("open");
+      topD.state = 'closed';
+      break;
+    case 2:
+      rightEl.removeClass("open");
+      rightD.state = 'closed';
+      break;
+    case 3:
+      bottomEl.removeClass("open");
+      bottomD.state = 'closed';
+      break;
+    case 4:
+      leftEl.removeClass("open");
+      leftD.state = 'closed';
+      break;
+  }
+}
+
+/**
+ * slide right panel open to x if x is within acceptable range relative to main element
+ */
+function openRightTo(x) {
+  w = rightEl.width(); 
+  maxLeft = winWidthHalf + w - 32;
+  if(x > maxLeft + (w/2)) {
+    rightEl.css('left', maxLeft+"px");
+  } else if(x > winWidthHalf + (w/2)) {
+    pos = x - Math.round(w/2);
+    rightEl.css('left', pos+"px");
+  } else {
+    if(x > winWidthHalf + (w/4)) {
+      rightEl.css('left', winWidthHalf+"px");
+    }
+  }
+}
+
+/**
+ * slide left panel open to x if x is within acceptable range relative to main element
+ */
+function openLeftTo(x) {
+  w = leftEl.width(); 
+  minLeft = winWidthHalf - w + 32;
+  if(x < minLeft - (w/2)) {
+    leftEl.css('left', minLeft+"px");
+  } else if(x < winWidthHalf - (w/2)) {
+    pos = x + Math.round(w/2);
+    leftEl.css('left', pos+"px");
+  } else {
+    pos = winWidthHalf;
+    if(x < winWidthHalf - (w/4)) {
+      leftEl.css('left', pos+"px");
+    }
+  }
+}
+
+function touchDown(e) {
+  for(index in e.touches) {
+    touchX = e.touches[index].pageX;
+    touchY = e.touches[index].pageY;
+
+    /** TOP DRAWER **/
+    t = topEl.offset().top;
+    l = topEl.offset().left;
+    w = topEl.width();
+    if(touchX > l && touchX < l + w && Math.abs(t-touchY) < threshold) {
+      if(topD.state === 'closed') {
+        open(1);
+      } else if(topD.state ==='open') {
+        close(1);
+      }
+    }
+
+    /** BOTTOM **/
+    if(bottomD.state === 'closed') {
+      l = $('#bottom-drawer').offset().left;
+
+    }
+  }
+  e.preventDefault();
+}
+
+function touchCancel(e) {
+  for(touch in e.touches) {
+  } 
+  e.preventDefault();
+}
+
+function touchUp(e) {
+  for(touch in e.touches) {
+  } 
+  e.preventDefault();
+}
+
+function touchLeave(e) {
+  for(touch in e.touches) {
+  } 
+  e.preventDefault();
+}
+
+function touchMove(e) {
+  for(index in e.touches) {
+    touchX = e.touches[index].pageX;
+    touchY = e.touches[index].pageY;
+
+    //make sure we have a valid touch point
+    if (touchX === undefined || touchY === undefined) return;
+
+    /** RIGHT **/
+    r = rightEl.offset().left + rightEl.width();
+    if(rightD.state === 'closed') {
+      if((touchX-r) > 0 && (touchX-r) < threshold) {
+        rightD.state = 'opening';
+        rightEl.animate({left: (touchX - rightEl.width())}, 0.1);
+      }   
+    } else if(rightD.state === 'opening') {
+      openRightTo(touchX);
+    }
+
+    /** BOTTOM **/
+    if(bottomD.state === 'closed') {
+      l = $('#bottom-drawer').offset().left;
+
+    }
+
+    /** LEFT **/
+    l = leftEl.offset().left;
+    if(leftD.state === 'closed') {
+      if((l-touchX) > 0 && (l-touchX) < threshold) {
+        leftD.state = 'opening';
+        leftEl.animate({left: touchX}, 0.1);
+      }
+    } else if(leftD.state === 'opening') {
+      openLeftTo(touchX);
+    }
+  }
+  e.preventDefault();
+}
+</script>
+
+
+</body></html>
